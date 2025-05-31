@@ -1,0 +1,139 @@
+
+.menu {
+  list-style: none;
+  padding-left: 10px;
+  padding-top: 40px; /* Aumente este valor para descer os itens */
+}
+
+
+.menu > li {
+  position: relative;
+  margin-bottom: 20px; /* Aumenta o espaço entre os botões */
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.menu-btn .arrow {
+  font-size: 0.8rem;
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+/* Submenu */
+.submenu {
+  padding-left: 20px;
+  margin-top: 8px;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.menu.open .submenu {
+  display: block;
+}
+
+.menu.open .menu-btn .arrow {
+  transform: rotate(180deg);
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* Posicionamento sidebar para cima ou para baixo */
+.sidebar {
+  position: relative;
+}
+
+.imagem-centralizada {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar > ul {
+  position: relative;
+  top: 30px; /* Desloca a lista para baixo */
+}
+
+
+
+
+/* Bolinha no SubMenu. */
+.submenu li {
+    position: relative;
+    padding-left: 20px; /* espaço para a bolinha */
+    list-style: none;
+}
+
+
+.submenu li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background-color: #4CAF50; /* cor da bolinha */
+    border-radius: 50%;
+    /* Bolinha no SubMenu. */
+
+}
+
+
+
+
+
+.tooltip-box {
+  position: absolute;
+  left: 120%;
+  top: 50%;
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left center;
+  min-width: 50px;
+  max-width: 400px;
+  max-height: 0;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 0;
+  border: 2px solid #00ffff;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    max-height 0.5s ease-out,
+    padding 0.5s ease-out;
+}
+
+.tooltip:hover .tooltip-box {
+  opacity: 1;
+  transform: translateY(-50%) scaleX(1);
+  max-height: 500px;
+  padding: 20px;
+  transition:
+    max-height 0.8s ease-in,
+    padding 0.5s ease-out;
+}
+
+

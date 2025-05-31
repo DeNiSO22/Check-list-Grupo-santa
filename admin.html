@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Painel do Administrador</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #eef2f3, #8e9eab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .admin-container {
+      background: white;
+      padding: 2.5rem 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #2d3748;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+      text-align: left;
+    }
+
+    label {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #4a5568;
+      margin-bottom: .4rem;
+      display: block;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid #cbd5e0;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.85rem;
+      background-color: #4299e1;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2b6cb0;
+    }
+
+    .msg {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .msg.success {
+      color: green;
+    }
+
+    .msg.error {
+      color: red;
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      color: #4299e1;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    .password-container {
+      position: relative;
+    }
+
+    .password-container span {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <h2>Resetar Senha (Administrador)</h2>
+
+    <div class="form-group">
+      <label for="cpfAdmin">CPF do Usuário</label>
+      <input type="text" id="cpfAdmin" maxlength="11" placeholder="Digite o CPF (somente números)" />
+    </div>
+
+    <div class="form-group">
+      <label for="novaSenha">Nova Senha</label>
+      <div class="password-container">
+        <input type="password" id="novaSenha" placeholder="Digite a nova senha" />
+        <span onclick="toggleSenha('novaSenha', this)">👁️</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="confirmarSenha">Confirmar Nova Senha</label>
+      <div class="password-container">
+        <input type="password" id="confirmarSenha" placeholder="Confirme a nova senha" />
+        <span onclick="toggleSenha('confirmarSenha', this)">👁️</span>
+      </div>
+    </div>
+
+    <button id="btnResetar">Redefinir Senha</button>
+    <div id="msgAdmin" class="msg"></div>
+    <a class="back-link" href="index.html">⬅ Voltar ao Login</a>
+  </div>
+
+  <script>
+    // Limitar o campo CPF para apenas números
+    document.getElementById('cpfAdmin').addEventListener('input', function () {
+      this.value = this.value.replace(/\D/g, '').slice(0, 11); // Remove tudo que não for número e limita a 11 dígitos
+    });
+
+    document.getElementById('btnResetar').addEventListener('click', () => {
+      const cpf = document.getElementById('cpfAdmin').value.trim();
+      const novaSenha = document.getElementById('novaSenha').value;
+      const confirmarSenha = document.getElementById('confirmarSenha').value;
+      const msg = document.getElementById('msgAdmin');
+
+      if (!cpf || !novaSenha || !confirmarSenha) {
+        msg.textContent = 'Preencha todos os campos.';
+        msg.className = 'msg error';
+        return;
+      }
+
+      if (novaSenha !== confirmarSenha) {
+        msg.textContent = 'As senhas não coincidem.';
+        msg.className = 'msg error';
+        return;
+      }
+
+      let usuarios = [];
+      try {
+        usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      } catch (e) {
+        console.error('Erro ao ler localStorage:', e);
+        msg.textContent = 'Erro ao acessar dados.';
+        msg.className = 'msg error';
+        return;
+      }
+
+      const index = usuarios.findIndex(u => u.login === cpf);
+
+      if (index !== -1) {
+        usuarios[index].senha = novaSenha;
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        msg.textContent = 'Senha redefinida com sucesso!';
+        msg.className = 'msg success';
+      } else {
+        msg.textContent = 'CPF não encontrado.';
+        msg.className = 'msg error';
+      }
+    });
+
+    function toggleSenha(idInput, eyeIcon) {
+      const input = document.getElementById(idInput);
+      if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        eyeIcon.textContent = '👁️';
+      }
+    }
+  </script>
+</body>
+</html>
