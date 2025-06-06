@@ -4,48 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital Santa Lucia - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f5f5f5;
+            display: flex;
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+
+        /* Estilo para o painel de imagem */
+        .image-panel {
+            flex: 0 0 50%;
+            background: linear-gradient(rgba(26, 82, 118, 0.85), rgba(26, 82, 118, 0.9)), url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?q=80&w=2073&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-overlay {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hospital-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .hospital-logo i {
+            font-size: 2.5rem;
+            color: #4fc3f7;
+        }
+
+        .hospital-logo h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .image-panel h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .image-panel p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            width: 45%;
+        }
+
+        .feature-item i {
+            color: #4fc3f7;
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        /* Estilo para o painel de formulário */
+        .form-panel {
+            flex: 0 0 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background: white;
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+
+        .form-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
         }
 
-        h1 {
-            color: #2d3748;
+        .form-container h3 {
+            color: #1a5276;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
-            font-size: 1.8rem;
         }
 
-        h2 {
-            color: #718096;
-            font-size: 1rem;
+        .form-container .subtitle {
+            color: #7f8c8d;
             margin-bottom: 2rem;
-            font-weight: normal;
+            font-size: 0.95rem;
         }
 
         .divider {
             text-align: center;
-            margin: 1.5rem 0;
-            color: #718096;
+            margin: 1.8rem 0;
+            color: #95a5a6;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -59,120 +135,288 @@
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
             position: relative;
         }
 
-        input {
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
             width: 100%;
-            padding: 0.8rem;
+            padding: 14px;
             border: 1px solid #e2e8f0;
-            border-radius: 5px;
-            margin-top: 0.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
-        button {
-            width: 100%;
-            padding: 1rem;
-            background-color: #4299e1;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background-color: #3182ce;
-        }
-
-        .checkbox-group {
-            margin: 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        a {
-            color: #4299e1;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            color: #e53e3e;
-            margin: 1rem 0;
-            padding: 10px;
-            background: #fed7d7;
-            border-radius: 5px;
-            display: none;
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
 
         #toggleSenha {
             position: absolute;
-            right: 10px;
-            top: 58%;
-            transform: translateY(-50%);
+            right: 15px;
+            top: 52px;
             cursor: pointer;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 1.5rem 0;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            accent-color: #3498db;
+        }
+
+        .checkbox-group label {
+            font-size: 0.95rem;
+            color: #34495e;
+            cursor: pointer;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, #3498db, #1a5276);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(to right, #2980b9, #154360);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Novo estilo para o botão do Google */
+        .btn-google {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            color: #757575;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             font-size: 1rem;
-            color: #718096;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 1.8rem;
+        }
+
+        .btn-google:hover {
+            background: #f8f9fa;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .btn-google i {
+            color: #4285F4;
+            font-size: 1.2rem;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .links a {
+            display: block;
+            color: #3498db;
+            text-decoration: none;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .links a:hover {
+            color: #1a5276;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            margin: 1.2rem 0;
+            padding: 12px;
+            background: #fadbd8;
+            border-radius: 8px;
+            display: none;
+            font-size: 0.95rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 992px) {
+            body {
+                flex-direction: column;
+            }
+            
+            .image-panel {
+                flex: 0 0 350px;
+                padding: 2rem;
+            }
+            
+            .image-overlay {
+                padding: 0;
+            }
+            
+            .image-panel h2 {
+                font-size: 2.2rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .image-panel {
+                flex: 0 0 300px;
+                padding: 1.5rem;
+            }
+            
+            .image-panel h2 {
+                font-size: 1.8rem;
+            }
+            
+            .features {
+                flex-direction: column;
+            }
+            
+            .feature-item {
+                width: 100%;
+            }
+            
+            .form-panel {
+                padding: 1.5rem;
+            }
+            
+            .form-container {
+                padding: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div style="background-color: #f0f0f0; padding: -20px; text-align: center;">
-       <img src="Convênios.jpg" alt="Portal" style="width: 100%; max-width: 331px; height: auto;">
-
-       </div>
-
-
-        <div class="divider"></div>
-
-        <h3>Login e Senha</h3> <br>
-
-        <form id="loginForm">
-            <div class="error-message" id="errorMessage">Login ou senha incorretos!</div>
-
-            <div class="form-group">
-                <label for="login">CPF:</label>
-                <input type="text" id="login" placeholder="Ex: 12345678900" required 
-                    inputmode="numeric" pattern="\d{11}" maxlength="11">
+    <!-- Painel de Imagem (Lado Esquerdo) -->
+    <div class="image-panel">
+        <div class="image-overlay">
+            <div class="hospital-logo">
+                <i class="fas fa-hospital"></i>
+                <h1>GRUPO SANTA</h1>
             </div>
-
-            <div class="form-group">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" required>
-                <span id="toggleSenha">👁️</span>
+            <h2>Portal de Contratos</h2>
+            <p>Ele é dividido por hospital e em cada hospital tem os convênios e suas particularidades contratuais.</p>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <h4>Painel de informações</h4>
+                        <p>Informações que chegam sobre os convênios é postado nesse painel.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>Regras e Instruções</h4>
+                        <p>Contrato Resumido para consulta.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-heartbeat"></i>
+                    <div>
+                        <h4>Buscar Informação Dentro ou Fora da DG</h4>
+                        <p>Digita o material, medicamento, taxa etc. Que retorna o resultado.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <div>
+                        <h4>NotbookLM</h4>
+                        <p>Consulta rápida de PDF extenso.</p>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Painel de Formulário (Lado Direito) -->
+    <div class="form-panel">
+        <div class="form-container">
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <img src="hospital_5897987.png" alt="Hospital" style="width: 80px; height: auto;">
+            <h3>Portal de Contratos</h3>
+            <p class="subtitle">Login e Senha</p>
+            
+            <form id="loginForm">
+                <div class="error-message" id="errorMessage">
+                    <i class="fas fa-exclamation-circle"></i> Login ou senha incorretos!
+                </div>
 
-            <div style="display: flex; align-items: center; gap: 6px; margin: 1rem 0;">
-                <input type="checkbox" id="salvar" style="width: 16px; height: 16px; accent-color: #4299e1; cursor: pointer; position: relative; top: 1px;">
-                <label for="salvar" style="cursor: pointer; font-size: 0.95rem; color: #4a5568;">Salvar Credenciais</label>
-            </div>
+                <div class="form-group">
+                    <label for="login">CPF:</label>
+                    <input type="text" id="login" placeholder="Ex: 12345678900" required 
+                           inputmode="numeric" pattern="\d{11}" maxlength="11">
+                </div>
 
-            <button type="submit">Entrar</button>
+                <!-- Botão de login com Google -->
+                <button type="button" id="googleLogin" class="btn-google">
+                    <i class="fab fa-google"></i> Entrar com Google
+                </button>
 
-            <div class="divider">OU</div>
+                <div class="divider">OU</div>
 
-            <a href="recuperar.html">Esqueceu a sua senha? Recuperar</a><br>
-            <a href="cadastro.html">Criar nova conta</a>
-        </form>
+                <div class="form-group">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" required placeholder="Digite sua senha">
+                    <span id="toggleSenha"><i class="fas fa-eye"></i></span>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="salvar">
+                    <label for="salvar">Salvar Credenciais</label>
+                </div>
+
+                <button type="submit" class="btn-login">Entrar</button>
+
+                <div class="links">
+                    <a href="recuperar.html"><i class="fas fa-key"></i> Esqueceu a sua senha? Recuperar</a>
+                    <a href="cadastro.html"><i class="fas fa-user-plus"></i> Criar nova conta</a>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <!-- Script da API do Google -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
     <script>
         // Impedir digitação de letras no CPF
         document.getElementById('login').addEventListener('input', function () {
-            this.value = this.value.replace(/\D/g, ''); // Remove tudo que não for dígito
+            this.value = this.value.replace(/\D/g, '');
         });
 
         // Banco de dados local de usuários
         let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [
-            // Usuário padrão para teste
             { login: "admin", senha: "admin123" }
         ];
 
@@ -189,10 +433,11 @@
             );
 
             if (usuarioValido) {
-                // Salvar credenciais se marcado
                 if (document.getElementById('salvar').checked) {
                     localStorage.setItem('ultimoLogin', login);
                 }
+                // Simulação de redirecionamento
+                errorMessage.style.display = 'none';
                 window.location.href = 'home.html';
             } else {
                 errorMessage.style.display = 'block';
@@ -214,8 +459,46 @@
             const senhaInput = document.getElementById('senha');
             const tipoAtual = senhaInput.getAttribute('type');
             senhaInput.setAttribute('type', tipoAtual === 'password' ? 'text' : 'password');
-            this.textContent = tipoAtual === 'password' ? '🙈' : '👁️';
+            
+            if (tipoAtual === 'password') {
+                this.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                this.innerHTML = '<i class="fas fa-eye"></i>';
+            }
         });
+
+        // Login com Google
+        document.getElementById('googleLogin').addEventListener('click', function() {
+            // Inicializa o fluxo de login do Google
+            google.accounts.id.prompt();
+            
+            // Configura o callback para quando o login for concluído
+            google.accounts.id.initialize({
+                client_id: 'SEU_CLIENT_ID.apps.googleusercontent.com', // Substitua pelo seu Client ID
+                callback: handleCredentialResponse
+            });
+        });
+
+        function handleCredentialResponse(response) {
+            // Aqui você processaria a resposta do Google
+            console.log("ID Token: " + response.credential);
+            
+            // Simulação de login bem-sucedido
+            alert('Login com Google realizado com sucesso! Redirecionando...');
+            window.location.href = 'home.html';
+            
+            // Em um sistema real, você enviaria o token para seu backend
+            // para validação e criação de sessão
+        }
+
+        // Exemplo de tratamento de erro
+        window.onGoogleLibraryLoad = function() {
+            google.accounts.id.initialize({
+                client_id: 'SEU_CLIENT_ID.apps.googleusercontent.com',
+                callback: handleCredentialResponse,
+                auto_select: false
+            });
+        };
     </script>
 </body>
 </html>
